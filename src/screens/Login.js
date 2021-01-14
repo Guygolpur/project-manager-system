@@ -72,7 +72,7 @@ function Login(props) {
                         'successMessage': 'Registration successful. Redirecting to home page..'
                     }))
                     setState({ isLoading: false })
-                    // redirectToHome();
+                    redirectToHome();
                     props.showError(null)
                 } else {
                     setState({ isLoading: false })
@@ -83,6 +83,10 @@ function Login(props) {
                 setState({ isLoading: false })
                 console.log(error);
             });
+    }
+
+    const redirectToHome = () => {
+        props.history.push('/home');
     }
 
     return (
@@ -129,4 +133,4 @@ function Login(props) {
     )
 }
 
-export default Login
+export default withRouter(Login)
