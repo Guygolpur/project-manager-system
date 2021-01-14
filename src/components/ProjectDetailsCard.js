@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
-import { makeStyles } from '@material-ui/core/styles'
+import { withStyles, makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -18,11 +18,23 @@ const useStyles = makeStyles({
     },
 })
 
+const GreenTableRow = withStyles((theme) => ({
+    root: {
+        backgroundColor: '#bce3cb',
+    },
+}))(TableCell);
+
+const RedTableRow = withStyles((theme) => ({
+    root: {
+        backgroundColor: '#f2c1bd',
+    },
+}))(TableCell);
+
 
 function ProjectDetailsCard(props) {
     const classes = useStyles()
 
-    const [projects, setProjects] = useState([]);
+    const [projects, setProjects] = useState([])
 
     useEffect(() => {
         axios.get(API_BASE_URL, {
@@ -57,19 +69,42 @@ function ProjectDetailsCard(props) {
                             <TableCell align="right">madeDadeline</TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
-                        {projects.map((row) => (
-                            <TableRow key={row}>
-                                {console.log('row: ', row)}
-                                <TableCell align="right">{row.id}</TableCell>
-                                <TableCell align="right">{row.name}</TableCell>
-                                <TableCell align="right">{row.score}</TableCell>
-                                <TableCell align="right">{row.durationInDays}</TableCell>
-                                <TableCell align="right">{row.bugsCount}</TableCell>
-                                <TableCell align="right">{row.madeDadeline.toString()}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
+                    {projects.map((row) => (
+                        <TableBody>
+                            {row.score > 90 || row.score < 70 ?
+                                <>
+                                    {row.score < 70 ?
+                                        <>
+                                            <RedTableRow align="right">{row.id}</RedTableRow>
+                                            <RedTableRow align="right">{row.name}</RedTableRow>
+                                            <RedTableRow align="right">{row.score}</RedTableRow>
+                                            <RedTableRow align="right">{row.durationInDays}</RedTableRow>
+                                            <RedTableRow align="right">{row.bugsCount}</RedTableRow>
+                                            <RedTableRow align="right">{row.madeDadeline.toString()}</RedTableRow>
+                                        </> :
+                                        <>
+                                            <GreenTableRow align="right">{row.id}</GreenTableRow>
+                                            <GreenTableRow align="right">{row.name}</GreenTableRow>
+                                            <GreenTableRow align="right">{row.score}</GreenTableRow>
+                                            <GreenTableRow align="right">{row.durationInDays}</GreenTableRow>
+                                            <GreenTableRow align="right">{row.bugsCount}</GreenTableRow>
+                                            <GreenTableRow align="right">{row.madeDadeline.toString()}</GreenTableRow>
+                                        </>
+                                    }
+
+                                </>
+                                :
+                                <TableRow key={row}>
+                                    <TableCell align="right">{row.id}</TableCell>
+                                    <TableCell align="right">{row.name}</TableCell>
+                                    <TableCell align="right">{row.score}</TableCell>
+                                    <TableCell align="right">{row.durationInDays}</TableCell>
+                                    <TableCell align="right">{row.bugsCount}</TableCell>
+                                    <TableCell align="right">{row.madeDadeline.toString()}</TableCell>
+                                </TableRow>
+                            }
+                        </TableBody>
+                    ))}
                 </Table>
             </TableContainer>
         </div>
