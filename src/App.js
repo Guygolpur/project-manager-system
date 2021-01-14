@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import React, { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom"
+import Cookie from "js-cookie"
 
 import Header from './components/Header'
 import AlertComponent from './components/AlertComponent'
@@ -10,21 +11,38 @@ import './App.css'
 
 function App() {
 
-  const [errorMessage, updateErrorMessage] = useState(null);
+  const [errorMessage, updateErrorMessage] = useState(null)
+  const [loggedIn, updateLoggedIn] = useState(false)
+
+  useEffect(() => {
+    if (Cookie.get("token")) {
+      updateLoggedIn(true)
+    }
+    else {
+      updateLoggedIn(false)
+    }
+  }, [])
+
+  const isLogged = (childResponse) => {
+    updateLoggedIn(childResponse)
+  }
 
   return (
     <Router>
-      <Header />
+      <Header isLogged={isLogged} />
       <div className="container d-flex align-items-center flex-column">
         <Switch>
+
           <Route path="/" showError={updateErrorMessage} exact={true}>
-            <Login showError={updateErrorMessage}>
+            {loggedIn ? <Redirect to="/info" /> : <Login showError={updateErrorMessage} isLogged={isLogged}>
               <AlertComponent errorMessage={errorMessage} hideError={updateErrorMessage} />
-            </Login>
+            </Login>}
           </Route>
-          <Route path="/home">
-            <Home />
+
+          <Route path="/info">
+            {loggedIn ? <Home /> : <Redirect to="/" />}
           </Route>
+
         </Switch>
       </div>
       <Footer />
