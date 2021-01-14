@@ -39,7 +39,7 @@ function Login(props) {
     }
 
     const emailValidation = () => {
-        var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+        var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i)
 
         if (!pattern.test(state.email)) {
             props.showError('Email address is not valid')
@@ -48,7 +48,7 @@ function Login(props) {
         else {
             return true
         }
-    };
+    }
 
     const passwordValidation = () => {
         var pattern = new RegExp(/^(?=.*\d)(?=.*[A-Z])[0-9a-zA-Z]{8,}$/)
@@ -60,10 +60,10 @@ function Login(props) {
         else {
             return true
         }
-    };
+    }
 
     const sendDetailsToServer = () => {
-        props.showError(null);
+        props.showError(null)
         const payload = {
             "email": state.email,
             "password": state.password,
@@ -79,19 +79,19 @@ function Login(props) {
                         isLoading: false,
                         token: response.data[0].token
                     })
-                    props.login(response.data[0])
+                    props.login(response.data[0].personalDetails)
                     Cookie.set("token", response.data[0].token)
-                    redirectToHome();
+                    redirectToHome()
                     props.showError(null)
                 } else {
                     setState({ isLoading: false })
-                    props.showError("Some error ocurred");
+                    props.showError("Some error ocurred")
                 }
             })
             .catch(function (error) {
                 setState({ isLoading: false })
-                console.log(error);
-            });
+                console.log(error)
+            })
     }
 
     const redirectToHome = () => {
@@ -152,12 +152,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         login: (authObj) => {
-            dispatch(AuthActions.login({authObj}))
+            dispatch(AuthActions.login({ authObj }))
         }
     }
 }
 
 export default connect(
-    mapStateToProps, 
+    mapStateToProps,
     mapDispatchToProps
-    )(withRouter(Login))
+)(withRouter(Login))

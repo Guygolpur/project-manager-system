@@ -9,36 +9,36 @@ import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
-import PropTypes from 'prop-types';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
+import PropTypes from 'prop-types'
+import TablePagination from '@material-ui/core/TablePagination'
+import TableSortLabel from '@material-ui/core/TableSortLabel'
 
 const API_BASE_URL = 'https://private-052d6-testapi4528.apiary-mock.com/info'
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
-        return -1;
+        return -1
     }
     if (b[orderBy] > a[orderBy]) {
-        return 1;
+        return 1
     }
-    return 0;
+    return 0
 }
 
 function getComparator(order, orderBy) {
     return order === 'desc'
         ? (a, b) => descendingComparator(a, b, orderBy)
-        : (a, b) => -descendingComparator(a, b, orderBy);
+        : (a, b) => -descendingComparator(a, b, orderBy)
 }
 
 function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
+    const stabilizedThis = array.map((el, index) => [el, index])
     stabilizedThis.sort((a, b) => {
-        const order = comparator(a[0], b[0]);
-        if (order !== 0) return order;
-        return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
+        const order = comparator(a[0], b[0])
+        if (order !== 0) return order
+        return a[1] - b[1]
+    })
+    return stabilizedThis.map((el) => el[0])
 }
 
 const headCells = [
@@ -48,13 +48,13 @@ const headCells = [
     { id: 'durationInDays', numeric: true, disablePadding: false, label: 'Duration' },
     { id: 'bugsCount', numeric: true, disablePadding: false, label: 'Bugs' },
     { id: 'madeDadeline', numeric: false, disablePadding: false, label: 'Made on dadeline' },
-];
+]
 
 function EnhancedTableHead(props) {
-    const { classes, order, orderBy, onRequestSort } = props;
+    const { classes, order, orderBy, onRequestSort } = props
     const createSortHandler = (property) => (event) => {
-        onRequestSort(event, property);
-    };
+        onRequestSort(event, property)
+    }
 
     return (
         <TableHead>
@@ -83,7 +83,7 @@ function EnhancedTableHead(props) {
                 ))}
             </TableRow>
         </TableHead>
-    );
+    )
 }
 
 EnhancedTableHead.propTypes = {
@@ -94,7 +94,7 @@ EnhancedTableHead.propTypes = {
     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
     orderBy: PropTypes.string.isRequired,
     rowCount: PropTypes.number.isRequired,
-};
+}
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -124,7 +124,7 @@ const GreenTableRow = withStyles((theme) => ({
     root: {
         backgroundColor: '#bce3cb',
     },
-}))(TableCell);
+}))(TableCell)
 
 const RedTableRow = withStyles((theme) => ({
     root: {
@@ -133,12 +133,12 @@ const RedTableRow = withStyles((theme) => ({
 }))(TableCell)
 
 function ProjectsDetailsTable(props) {
-    const classes = useStyles();
+    const classes = useStyles()
     const [projects, setProjects] = useState([])
-    const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('score');
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [order, setOrder] = useState('asc')
+    const [orderBy, setOrderBy] = useState('score')
+    const [page, setPage] = useState(0)
+    const [rowsPerPage, setRowsPerPage] = useState(5)
 
     useEffect(() => {
         axios.get(API_BASE_URL, {
@@ -148,11 +148,7 @@ function ProjectsDetailsTable(props) {
         })
             .then(function (response) {
                 if (response.status === 201) {
-                    console.log('201')
-                    console.log('response.data: ', response.data)
                     setProjects(response.data)
-                    console.log('projects: ', projects.length)
-                    console.log('projects: ', projects)
                 } else {
                 }
             })
@@ -163,21 +159,21 @@ function ProjectsDetailsTable(props) {
     }, [])
 
     const handleRequestSort = (event, property) => {
-        const isAsc = orderBy === property && order === 'asc';
-        setOrder(isAsc ? 'desc' : 'asc');
-        setOrderBy(property);
-    };
+        const isAsc = orderBy === property && order === 'asc'
+        setOrder(isAsc ? 'desc' : 'asc')
+        setOrderBy(property)
+    }
 
     const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
+        setPage(newPage)
+    }
 
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
+        setRowsPerPage(parseInt(event.target.value, 10))
+        setPage(0)
+    }
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, projects.length - page * rowsPerPage);
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, projects.length - page * rowsPerPage)
 
     return (
         <div className={classes.root}>
@@ -198,7 +194,7 @@ function ProjectsDetailsTable(props) {
                         {stableSort(projects, getComparator(order, orderBy))
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => {
-                                const labelId = `enhanced-table-checkbox-${index}`;
+                                const labelId = `enhanced-table-checkbox-${index}`
 
                                 return (
                                     <TableBody>
@@ -275,7 +271,7 @@ function ProjectsDetailsTable(props) {
                                                 )}
                                             </>}
                                     </TableBody>
-                                );
+                                )
                             })}
                     </Table>
                 </TableContainer>
@@ -290,7 +286,7 @@ function ProjectsDetailsTable(props) {
                 />
             </Paper>
         </div>
-    );
+    )
 }
 
 const mapStateToProps = (state) => {
