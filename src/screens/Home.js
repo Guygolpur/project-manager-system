@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import PersonalDetailsCard from '../components/PersonalDetailsCard'
-import ProjectDetailsCard from '../components/ProjectDetailsCard'
 import ProjectsDetailTable from '../components/ProjectsDetailTable'
 
 function Home(props) {
@@ -9,7 +8,6 @@ function Home(props) {
         <div className="App-home">
             <PersonalDetailsCard />
             <ProjectsDetailTable />
-            {/* <ProjectDetailsCard /> */}
         </div>
     )
 }

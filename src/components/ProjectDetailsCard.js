@@ -22,13 +22,13 @@ const GreenTableRow = withStyles((theme) => ({
     root: {
         backgroundColor: '#bce3cb',
     },
-}))(TableCell);
+}))(TableCell)
 
 const RedTableRow = withStyles((theme) => ({
     root: {
         backgroundColor: '#f2c1bd',
     },
-}))(TableCell);
+}))(TableCell)
 
 
 function ProjectDetailsCard(props) {
@@ -44,7 +44,6 @@ function ProjectDetailsCard(props) {
         })
             .then(function (response) {
                 if (response.status === 201) {
-                    console.log('201')
                     setProjects(response.data)
                 } else {
                 }

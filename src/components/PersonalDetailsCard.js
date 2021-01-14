@@ -23,24 +23,23 @@ const useStyles = makeStyles({
 })
 
 function PersonalDetailsCard(props) {
-    const classes = useStyles();
+    const classes = useStyles()
     const bull = <span className={classes.bullet}>•</span>
-
     return (
         <div className="App-home">
-            {props.auth.user.personalDetails ?
+            {props.auth.user ?
                 <Card className={classes.root}>
                     <CardContent>
                         <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            {props.auth.user.personalDetails.name}
+                            {props.auth.user.name}
                         </Typography>
                         <Typography variant="h5" component="h2">
-                            {bull} {props.auth.user.personalDetails.Team} {bull}
+                            {bull} {props.auth.user.Team} {bull}
                         </Typography>
                         <Typography className={classes.pos} color="textSecondary">
-                            {props.auth.user.personalDetails.joinedAt}
+                            {props.auth.user.joinedAt}
                         </Typography>
-                        <img src={`${props.auth.user.personalDetails.avatar}`} />
+                        <img src={`${props.auth.user.avatar}`} />
                     </CardContent>
                 </Card>
                 : null}
