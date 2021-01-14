@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { withRouter } from "react-router-dom"
+import { connect } from 'react-redux'
 import axios from 'axios'
 import { CircularProgress } from '@material-ui/core'
 import Cookie from "js-cookie"
+import * as AuthActions from '../store/actions/authActions'
 
 const API_BASE_URL = 'https://private-052d6-testapi4528.apiary-mock.com/authenticate'
-
-const token = Cookie.get("token") ? Cookie.get("token") : null
 
 function Login(props) {
 
@@ -79,6 +79,7 @@ function Login(props) {
                         isLoading: false,
                         token: response.data[0].token
                     })
+                    props.login(response.data[0])
                     Cookie.set("token", response.data[0].token)
                     redirectToHome();
                     props.showError(null)
@@ -142,4 +143,21 @@ function Login(props) {
     )
 }
 
-export default withRouter(Login)
+const mapStateToProps = state => {
+    return {
+        auth: state.auth
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        login: (authObj) => {
+            dispatch(AuthActions.login({authObj}))
+        }
+    }
+}
+
+export default connect(
+    mapStateToProps, 
+    mapDispatchToProps
+    )(withRouter(Login))
