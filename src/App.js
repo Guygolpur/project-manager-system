@@ -7,6 +7,7 @@ import AlertComponent from './components/AlertComponent'
 import Footer from './components/Footer'
 import Login from './screens/Login'
 import Home from './screens/Home'
+
 import './App.css'
 
 function App() {
