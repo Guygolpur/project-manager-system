@@ -2,8 +2,11 @@ import React, { useState } from 'react'
 import { withRouter } from "react-router-dom"
 import axios from 'axios'
 import { CircularProgress } from '@material-ui/core'
+import Cookie from "js-cookie"
 
 const API_BASE_URL = 'https://private-052d6-testapi4528.apiary-mock.com/authenticate'
+
+const token = Cookie.get("token") ? Cookie.get("token") : null
 
 function Login(props) {
 
@@ -11,7 +14,8 @@ function Login(props) {
         email: "",
         password: "",
         successMessage: null,
-        isLoading: false
+        isLoading: false,
+        token: ''
     })
 
     const handleChange = (e) => {
@@ -71,7 +75,11 @@ function Login(props) {
                         ...prevState,
                         'successMessage': 'Registration successful. Redirecting to home page..'
                     }))
-                    setState({ isLoading: false })
+                    setState({
+                        isLoading: false,
+                        token: response.data[0].token
+                    })
+                    Cookie.set("token", response.data[0].token)
                     redirectToHome();
                     props.showError(null)
                 } else {
@@ -86,7 +94,8 @@ function Login(props) {
     }
 
     const redirectToHome = () => {
-        props.history.push('/home');
+        props.isLogged(true)
+        props.history.push('/info')
     }
 
     return (
