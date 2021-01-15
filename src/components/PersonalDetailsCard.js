@@ -26,7 +26,7 @@ function PersonalDetailsCard(props) {
     const classes = useStyles()
     const bull = <span className={classes.bullet}>•</span>
     return (
-        <div className="App-home">
+        <div className="App-card">
             {props.auth.user ?
                 <Card className={classes.root}>
                     <CardContent>

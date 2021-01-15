@@ -46,7 +46,7 @@ function App() {
 
         </Switch>
       </div>
-      <Footer />
+      <Footer text='Created by Guy Golpur'/>
     </Router>
   )
 }

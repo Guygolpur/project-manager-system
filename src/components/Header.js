@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import LogOut from './LogOut'
+import Cookie from "js-cookie"
 
-import logo from '../logo.svg';
+import logo from '../logg.svg'
 
 function Welcome(props) {
     return (
@@ -10,7 +11,9 @@ function Welcome(props) {
                 <img src={logo} className="App-logo" alt="logo" />
             </div>
             <div className="App-logout">
-                <LogOut isLogged={props.isLogged}/>
+                {Cookie.get("token") && (
+                    <LogOut isLogged={props.isLogged} />
+                )}
             </div>
         </div>
     )

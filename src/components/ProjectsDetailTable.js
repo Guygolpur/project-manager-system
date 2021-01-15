@@ -13,6 +13,10 @@ import PropTypes from 'prop-types'
 import TablePagination from '@material-ui/core/TablePagination'
 import TableSortLabel from '@material-ui/core/TableSortLabel'
 
+import TableRegularCell from './TableRegularCell'
+import TableGreenCell from './TableGreenCell'
+import TableRedCell from './TableRedCell'
+
 const API_BASE_URL = 'https://private-052d6-testapi4528.apiary-mock.com/info'
 
 function descendingComparator(a, b, orderBy) {
@@ -150,6 +154,7 @@ function ProjectsDetailsTable(props) {
                 if (response.status === 201) {
                     setProjects(response.data)
                 } else {
+                    console.log('error')
                 }
             })
             .catch(function (error) {
@@ -207,15 +212,7 @@ function ProjectsDetailsTable(props) {
                                                             tabIndex={-1}
                                                             key={row.id}
                                                         >
-                                                            <RedTableRow padding="checkbox" />
-                                                            <RedTableRow component="th" id={labelId} scope="row" padding="none">
-                                                                {row.id}
-                                                            </RedTableRow>
-                                                            <RedTableRow align="right">{row.name}</RedTableRow>
-                                                            <RedTableRow align="right">{row.score}</RedTableRow>
-                                                            <RedTableRow align="right">{row.durationInDays}</RedTableRow>
-                                                            <RedTableRow align="right">{row.bugsCount}</RedTableRow>
-                                                            <RedTableRow align="right">{row.madeDadeline.toString()}</RedTableRow>
+                                                            <TableRedCell id={labelId} row={row} />
                                                         </TableRow>
                                                         {emptyRows > 0 && (
                                                             <TableRow style={{ height: (53) * emptyRows }}>
@@ -228,15 +225,7 @@ function ProjectsDetailsTable(props) {
                                                             tabIndex={-1}
                                                             key={row.id}
                                                         >
-                                                            <GreenTableRow padding="checkbox" />
-                                                            <GreenTableRow component="th" id={labelId} scope="row" padding="none">
-                                                                {row.id}
-                                                            </GreenTableRow>
-                                                            <GreenTableRow align="right">{row.name}</GreenTableRow>
-                                                            <GreenTableRow align="right">{row.score}</GreenTableRow>
-                                                            <GreenTableRow align="right">{row.durationInDays}</GreenTableRow>
-                                                            <GreenTableRow align="right">{row.bugsCount}</GreenTableRow>
-                                                            <GreenTableRow align="right">{row.madeDadeline.toString()}</GreenTableRow>
+                                                            <TableGreenCell id={labelId} row={row} />
                                                         </TableRow>
                                                         {emptyRows > 0 && (
                                                             <TableRow style={{ height: (53) * emptyRows }}>
@@ -254,15 +243,7 @@ function ProjectsDetailsTable(props) {
                                                     tabIndex={-1}
                                                     key={row.id}
                                                 >
-                                                    <TableCell padding="checkbox" />
-                                                    <TableCell component="th" id={labelId} scope="row" padding="none">
-                                                        {row.id}
-                                                    </TableCell>
-                                                    <TableCell align="right">{row.name}</TableCell>
-                                                    <TableCell align="right">{row.score}</TableCell>
-                                                    <TableCell align="right">{row.durationInDays}</TableCell>
-                                                    <TableCell align="right">{row.bugsCount}</TableCell>
-                                                    <TableCell align="right">{row.madeDadeline.toString()}</TableCell>
+                                                    <TableRegularCell id={labelId} row={row} />
                                                 </TableRow>
                                                 {emptyRows > 0 && (
                                                     <TableRow style={{ height: (53) * emptyRows }}>
