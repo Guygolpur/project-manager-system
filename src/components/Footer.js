@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 function footer(props) {
     return (
         <div className="App-footer">
-            Created by Guy Golpur
+            {props.text}
         </div>
     )
 }

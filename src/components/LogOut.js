@@ -9,7 +9,7 @@ import Cookie from "js-cookie"
 function LogOut(props) {
 
     return (
-        <>
+        <div>
             <span onClick={() => {
                 Cookie.remove('token')
                 props.login({})
@@ -18,7 +18,7 @@ function LogOut(props) {
             }}>
                 <ExitToAppIcon fontSize="large" />
             </span>
-        </>
+        </div>
     )
 }
 
